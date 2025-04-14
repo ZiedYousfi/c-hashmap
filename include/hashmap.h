@@ -2,6 +2,7 @@
 #define HASHMAP_H
 
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct HashMap {
   int size;      // Number of elements in the hash map
@@ -10,6 +11,6 @@ typedef struct HashMap {
   int *values;   // Array to store values
 } HashMap;
 
-HashMap *create_hashmap(int capacity);
+HashMap *create_hashmap(int capacity, int size);
 
 #endif /* HASHMAP_H */
