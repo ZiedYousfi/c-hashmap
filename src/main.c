@@ -22,7 +22,7 @@ int main(void) {
   setbuf(stdout, NULL);
   printf("Hello from hashmap!\n");
 
-  HashMap *hm = create_hashmap(2, 0);
+  HashMap *hm = create_hashmap(2, 2);
   if (!hm) {
     return 1;
   }

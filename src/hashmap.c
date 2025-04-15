@@ -94,9 +94,6 @@ int hash_to_key_for_specific_hash_map(int hash, HashMap hashmap) {
 }
 
 HashMap *add_value(const void *data, HashMap *hashmap, size_t value_size) {
-  int data_hash = hash_function(data, value_size, HASH_TYPE_GENERIC);
-  int data_key = hash_to_key_for_specific_hash_map(data_hash, *hashmap);
-
   if ((hashmap->size + 1) > hashmap->capacity) {
     int new_capacity = hashmap->capacity * 2;
     int *new_keys = realloc(hashmap->keys, sizeof(int) * new_capacity);
@@ -113,7 +110,10 @@ HashMap *add_value(const void *data, HashMap *hashmap, size_t value_size) {
     hashmap->capacity = new_capacity;
   }
 
-  hashmap->keys[data_key] = data_key;
-  memcpy((char *)hashmap->values + (data_key * value_size), data, value_size);
+  int data_hash = hash_function(data, value_size, HASH_TYPE_GENERIC);
+
+  hashmap->keys[hashmap->size] = data_hash;
+  memcpy((char *)hashmap->values + (hashmap->size * value_size), data, value_size);
+  hashmap->size += 1;
   return hashmap;
 }
