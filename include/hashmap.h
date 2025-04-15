@@ -15,12 +15,12 @@ typedef struct HashMap {
   int size;      // Number of elements in the hash map
   int capacity;  // Total capacity of the hash map
   int *keys;     // Array to store keys
-  int *values;   // Array to store values
+  void *values;   // Array to store values
 } HashMap;
 
 int hash_function(const void *data, size_t size, int type);
 HashMap *create_hashmap(int capacity, int size);
 int hash_to_key_for_specific_hash_map(int hash, HashMap hashmap);
-HashMap *add_value(const void *data, HashMap *hashmap);
+HashMap *add_value(const void *data, HashMap *hashmap, size_t value_size);
 
 #endif /* HASHMAP_H */

@@ -54,8 +54,21 @@ HashMap *create_hashmap(int capacity, int size) {
   }
 
   hm->capacity = capacity;
+
+  hm->size = size;
+
+  if (hm->size == 0) {
+    if (hm->capacity >= 1) {
+      hm->size = 1;
+      fprintf(stderr, "Warning: size shouldn't be 0\n");
+    } else {
+      fprintf(stderr, "Error: capacity must be greater than 0\n");
+      free(hm);
+      return NULL;
+    }
+  }
+
   if (size <= hm->capacity) {
-    hm->size = size;
     hm->values = malloc(sizeof(int) * hm->size);
     if (!hm->values) {
       free(hm);
@@ -80,18 +93,16 @@ int hash_to_key_for_specific_hash_map(int hash, HashMap hashmap) {
   return hash % hashmap.size;
 }
 
-HashMap *add_value(const void *data, HashMap *hashmap) {
-  int data_hash = hash_function(data, sizeof(data), HASH_TYPE_GENERIC);
+HashMap *add_value(const void *data, HashMap *hashmap, size_t value_size) {
+  int data_hash = hash_function(data, value_size, HASH_TYPE_GENERIC);
   int data_key = hash_to_key_for_specific_hash_map(data_hash, *hashmap);
 
-  if ((hashmap->size + 1) > hashmap->capacity){
-    // Need to resize the hashmap
+  if ((hashmap->size + 1) > hashmap->capacity) {
     int new_capacity = hashmap->capacity * 2;
     int *new_keys = realloc(hashmap->keys, sizeof(int) * new_capacity);
-    int *new_values = realloc(hashmap->values, sizeof(int) * new_capacity);
+    void *new_values = realloc(hashmap->values, value_size * new_capacity);
 
     if (!new_keys || !new_values) {
-      // Handle memory allocation failure
       if (new_keys) free(new_keys);
       if (new_values) free(new_values);
       return NULL;
@@ -102,7 +113,7 @@ HashMap *add_value(const void *data, HashMap *hashmap) {
     hashmap->capacity = new_capacity;
   }
 
-  
-
-
+  hashmap->keys[data_key] = data_key;
+  memcpy((char *)hashmap->values + (data_key * value_size), data, value_size);
+  return hashmap;
 }
