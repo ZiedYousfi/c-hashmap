@@ -29,12 +29,13 @@ int main(void) {
 
   print_hashmap(*hm);
 
-  int test_1 = 19;
-  int *p_test_1 = &test_1;
+  for (int i = 0; i < 10; i++) {
+    int value = i * 10;
+    int *p_value = &value;
+    add_value(p_value, hm, sizeof(int));
+    print_hashmap(*hm);
 
-  add_value(p_test_1, hm, sizeof(p_test_1));
-
-  print_hashmap(*hm);
+  }
 
   free(hm);
   return 0;
