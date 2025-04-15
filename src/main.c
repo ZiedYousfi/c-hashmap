@@ -34,7 +34,6 @@ int main(void) {
     int *p_value = &value;
     add_value(p_value, hm, sizeof(int));
     print_hashmap(*hm);
-
   }
 
   free(hm);
