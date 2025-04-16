@@ -78,8 +78,18 @@ int add_value_to_hashmap(const void *data, HashMap *hashmap,
   return 0;
 }
 
-// Hashmap memory mangement
+int get_value_of_hashmap(int key, HashMap hashmap, void *value,
+                         size_t value_size) {
+  for (int i = 0; i < hashmap.size; i++) {
+    if (hashmap.keys[i] == key) {
+      memcpy(value, (char *)hashmap.values + (i * value_size), value_size);
+      return 0;
+    }
+  }
+  return 1;
+}
 
+// Hashmap memory mangement
 HashMap *create_hashmap(int capacity, int size) {
   HashMap *hm = malloc(sizeof(HashMap));
   if (!hm) {

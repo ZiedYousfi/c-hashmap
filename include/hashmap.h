@@ -22,6 +22,8 @@ int hash_function(const void *data, size_t size, int type);
 HashMap *create_hashmap(int capacity, int size);
 int hash_to_key_for_specific_hash_map(int hash, HashMap hashmap);
 int add_value_to_hashmap(const void *data, HashMap *hashmap, size_t value_size);
+int get_value_of_hashmap(int key, HashMap hashmap, void *value,
+                         size_t value_size);
 int free_hashmap(HashMap *hm);
 
 #endif /* HASHMAP_H */
