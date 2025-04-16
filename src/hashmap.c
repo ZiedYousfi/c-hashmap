@@ -125,12 +125,17 @@ HashMap *create_hashmap(int capacity, int size) {
 int free_hashmap(HashMap *hm) {
   if (hm->values != NULL) {
     free(hm->values);
+    printf("Freeing values\n");
+    hm->values = NULL;
   }
 
   if (hm->keys != NULL) {
     free(hm->keys);
+    printf("Freeing keys\n");
+    hm->keys = NULL;
   }
   free(hm);
   hm = NULL;
+  printf("Freeing hashmap\n");
   return 0;
 }
