@@ -51,8 +51,8 @@ int hash_to_key_for_specific_hash_map(int hash, HashMap hashmap) {
   return hash % hashmap.size;
 }
 
-int *add_value_to_hashmap(const void *data, HashMap *hashmap,
-                          size_t value_size) {
+int add_value_to_hashmap(const void *data, HashMap *hashmap,
+                         size_t value_size) {
   if ((hashmap->size + 1) > hashmap->capacity) {
     int new_capacity = hashmap->capacity * 2;
     int *new_keys = realloc(hashmap->keys, sizeof(int) * new_capacity);
@@ -123,11 +123,11 @@ HashMap *create_hashmap(int capacity, int size) {
 }
 
 int free_hashmap(HashMap *hm) {
-  if(hm->values != NULL){
+  if (hm->values != NULL) {
     free(hm->values);
   }
-  
-  if(hm->keys != NULL){
+
+  if (hm->keys != NULL) {
     free(hm->keys);
   }
   free(hm);

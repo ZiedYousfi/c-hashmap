@@ -21,8 +21,7 @@ typedef struct HashMap {
 int hash_function(const void *data, size_t size, int type);
 HashMap *create_hashmap(int capacity, int size);
 int hash_to_key_for_specific_hash_map(int hash, HashMap hashmap);
-int *add_value_to_hashmap(const void *data, HashMap *hashmap,
-                          size_t value_size);
+int add_value_to_hashmap(const void *data, HashMap *hashmap, size_t value_size);
 int free_hashmap(HashMap *hm);
 
 #endif /* HASHMAP_H */
