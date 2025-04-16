@@ -24,6 +24,7 @@ int main(void) {
 
   HashMap *hm = create_hashmap(2, 2);
   if (!hm) {
+    fprintf(stderr, "Error: failed to create hashmap\n");
     return 1;
   }
 
@@ -32,10 +33,20 @@ int main(void) {
   for (int i = 0; i < 10; i++) {
     int value = i * 10;
     int *p_value = &value;
-    add_value(p_value, hm, sizeof(int));
+    if (add_value_to_hashmap(p_value, hm, sizeof(int)) != 0){
+      fprintf(stderr, "Error: failed to add value %d to hashmap\n", value);
+      if (free_hashmap(hm) != 0) {
+        fprintf(stderr, "Error: failed to free hashmap\n");
+        return 3;
+      }
+      return 2;
+    }
     print_hashmap(*hm);
   }
 
-  free(hm);
+  if (free_hashmap(hm) != 0) {
+    fprintf(stderr, "Error: failed to free hashmap\n");
+    return 3;
+  }
   return 0;
 }

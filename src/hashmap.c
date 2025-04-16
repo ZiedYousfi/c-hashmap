@@ -47,6 +47,39 @@ int hash_function(const void *data, size_t size, int type) {
   }
 }
 
+int hash_to_key_for_specific_hash_map(int hash, HashMap hashmap) {
+  return hash % hashmap.size;
+}
+
+int *add_value_to_hashmap(const void *data, HashMap *hashmap,
+                          size_t value_size) {
+  if ((hashmap->size + 1) > hashmap->capacity) {
+    int new_capacity = hashmap->capacity * 2;
+    int *new_keys = realloc(hashmap->keys, sizeof(int) * new_capacity);
+    void *new_values = realloc(hashmap->values, value_size * new_capacity);
+
+    if (!new_keys || !new_values) {
+      if (new_keys) free(new_keys);
+      if (new_values) free(new_values);
+      return 1;
+    }
+
+    hashmap->keys = new_keys;
+    hashmap->values = new_values;
+    hashmap->capacity = new_capacity;
+  }
+
+  int data_hash = hash_function(data, value_size, HASH_TYPE_GENERIC);
+
+  hashmap->keys[hashmap->size] = data_hash;
+  memcpy((char *)hashmap->values + (hashmap->size * value_size), data,
+         value_size);
+  hashmap->size += 1;
+  return 0;
+}
+
+// Hashmap memory mangement
+
 HashMap *create_hashmap(int capacity, int size) {
   HashMap *hm = malloc(sizeof(HashMap));
   if (!hm) {
@@ -89,31 +122,15 @@ HashMap *create_hashmap(int capacity, int size) {
   return hm;
 }
 
-int hash_to_key_for_specific_hash_map(int hash, HashMap hashmap) {
-  return hash % hashmap.size;
-}
-
-HashMap *add_value(const void *data, HashMap *hashmap, size_t value_size) {
-  if ((hashmap->size + 1) > hashmap->capacity) {
-    int new_capacity = hashmap->capacity * 2;
-    int *new_keys = realloc(hashmap->keys, sizeof(int) * new_capacity);
-    void *new_values = realloc(hashmap->values, value_size * new_capacity);
-
-    if (!new_keys || !new_values) {
-      if (new_keys) free(new_keys);
-      if (new_values) free(new_values);
-      return NULL;
-    }
-
-    hashmap->keys = new_keys;
-    hashmap->values = new_values;
-    hashmap->capacity = new_capacity;
+int free_hashmap(HashMap *hm) {
+  if(hm->values != NULL){
+    free(hm->values);
   }
-
-  int data_hash = hash_function(data, value_size, HASH_TYPE_GENERIC);
-
-  hashmap->keys[hashmap->size] = data_hash;
-  memcpy((char *)hashmap->values + (hashmap->size * value_size), data, value_size);
-  hashmap->size += 1;
-  return hashmap;
+  
+  if(hm->keys != NULL){
+    free(hm->keys);
+  }
+  free(hm);
+  hm = NULL;
+  return 0;
 }
