@@ -3,3 +3,4 @@ build/
 *.out
 src/main.c
 .vscode/
+.DS_Store
