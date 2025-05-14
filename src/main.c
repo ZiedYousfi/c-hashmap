@@ -1,3 +1,9 @@
+/*
+ * main.c
+ *
+ * Main file for the hash map implementation in C.
+ */
+
 #include "hashmap.h"
 
 void print_hashmap(HashMap hm) {
