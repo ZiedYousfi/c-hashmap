@@ -6,6 +6,31 @@
 
 #include "hashmap.h"
 
+void print_value(HashMap hm, int i){
+
+  printf("Value: ");
+
+  switch (hm.type)
+  {
+  case HASH_TYPE_INT:
+    printf("%d", ((int *)hm.values)[i]);
+    break;
+
+  case HASH_TYPE_STRING:
+    printf("%s", ((char **)hm.values)[i]);
+    break;
+  case HASH_TYPE_FLOAT:
+    printf("%f", ((float *)hm.values)[i]);
+    break;
+  case HASH_TYPE_GENERIC:
+    printf("%p", ((void **)hm.values)[i]);
+    break;
+
+  default:
+    break;
+  }
+}
+
 void print_hashmap(HashMap hm) {
   // Print hashmap details
   printf("Hashmap created:\n");
@@ -14,10 +39,12 @@ void print_hashmap(HashMap hm) {
 
   // Print keys and values
   printf("Hashmap contents:\n");
-  for (int i = 0; i < hm.capacity; i++) {
+  for (int i = 0; i < hm.size; i++) {
     printf("  Index %d: ", i);
     if (i < hm.size) {
-      printf("Key: %d, Value: %d\n", hm.keys[i], ((int *)hm.values)[i]);
+      printf("Key: %d, ", hm.keys[i]);
+      print_value(hm, i);
+      printf("\n");
     } else {
       printf("Empty\n");
     }
