@@ -96,8 +96,9 @@ int add_value_to_hashmap(const void *data, HashMap *hashmap) {
   }
 
   int data_hash = hash_function(data, hashmap->values_size, hashmap->type);
+  int index = hash_to_key_for_specific_hash_map(data_hash, *hashmap);
 
-  hashmap->keys[hashmap->size] = data_hash;
+  hashmap->keys[index] = data_hash;
   memcpy((char *)hashmap->values + (hashmap->size * hashmap->values_size), data,
          hashmap->values_size);
   hashmap->size += 1;
