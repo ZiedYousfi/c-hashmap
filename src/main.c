@@ -6,7 +6,7 @@
 
 #include "hashmap.h"
 
-/*
+/**
  * Print a value from the hash map based on its type.
  * @param hm    The hash map.
  * @param i     The index of the value to print.

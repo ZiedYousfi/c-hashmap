@@ -3,7 +3,7 @@
  *
  * Header file for a generic hash map implementation in C.
  *
-*/
+ */
 
 #ifndef HASHMAP_H
 #define HASHMAP_H

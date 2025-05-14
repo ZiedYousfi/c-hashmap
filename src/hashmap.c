@@ -4,7 +4,7 @@
  * Implementation of a generic hash map in C.
  * This hash map can store different types of data.
  * It uses a simple hash function
-*/
+ */
 
 #include "hashmap.h"
 
