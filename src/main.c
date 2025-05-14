@@ -22,7 +22,7 @@ int main(void) {
   setbuf(stdout, NULL);
   printf("Hello from hashmap!\n");
 
-  HashMap *hm = create_hashmap(2, 2);
+  HashMap *hm = create_hashmap(2, 2, HASH_TYPE_INT);
   if (!hm) {
     fprintf(stderr, "Error: failed to create hashmap\n");
     return 1;
@@ -33,7 +33,7 @@ int main(void) {
   for (int i = 0; i < 10; i++) {
     int value = i * 10;
     int *p_value = &value;
-    if (add_value_to_hashmap(p_value, hm, sizeof(int)) != 0){
+    if (add_value_to_hashmap(p_value, hm) != 0){
       fprintf(stderr, "Error: failed to add value %d to hashmap\n", value);
       if (free_hashmap(hm) != 0) {
         fprintf(stderr, "Error: failed to free hashmap\n");
